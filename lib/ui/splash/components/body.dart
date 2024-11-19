@@ -1,5 +1,4 @@
 import 'package:e_commerce/consts.dart';
-import 'package:e_commerce/ui/home/catalogue_screen.dart';
 import 'package:e_commerce/ui/splash/components/splash_content.dart';
 import 'package:flutter/material.dart';
 
@@ -96,11 +95,7 @@ class _BodyState extends State<Body> {
                     //jika berada di halaman terakhir (currentPage == splashData.length - 1), abistu diarahkan ke CatalogueScreen.
                     
                     //kode yang di gunakan untuk berpindah antar halaman
-                      Navigator.push(
-                        context, // represent dari currentPage
-                        MaterialPageRoute(
-                          builder: (context) => const CatalogeScreen())
-                      );
+                    Navigator.pushNamed(context, '/login');
                     } else {
                       // ini  untuk swipe ke slide berikutnya
                       _pageController.animateToPage( // kalo belum sampai akhir bakal nambah ke halaman berikutnya pakai animateToPage

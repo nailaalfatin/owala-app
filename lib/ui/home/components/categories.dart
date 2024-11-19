@@ -10,17 +10,16 @@ class Categories extends StatefulWidget {
 
 //state atas untuk menyimpen apa yg digunakan oleh super class
 //state bawah buat variable variable kecil
-
 class _CategoriesState extends State<Categories> {
   //list itu kurung kotak []
   //kalo map itu kurung kurawal{}
   //kalo ini list, pengembailan nya juga harus list, gabisa langsung dipanggil
   
-  List<String> categories = [
-    "Drinkware",
-    "Color Drop",
-    "Bundles",
-    "Accessories"
+  List<Map<String, dynamic>> categories = [
+    {"icon": Icons.local_drink, "text": "Drinkware"},
+    {"icon": Icons.color_lens, "text": "Color Drop"},
+    {"icon": Icons.card_giftcard, "text": "Bundles"},
+    {"icon": Icons.accessibility, "text": "Accessories"},
   ];
   int selectedIndex = 0; //buat ngasi tau perubahan indexnya
 
@@ -28,15 +27,48 @@ class _CategoriesState extends State<Categories> {
   Widget build(BuildContext context) {
     //Ini buat bikin daftar kategori yang bisa di-scroll dan kasih jarak vertikal
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: defaultPadding),
-      child: SizedBox(
-        height: 25,
-        child: ListView.builder( //membuat list yang bisa di-scroll secara horizontal
-          itemCount: categories.length,
-          //item builder itu buat membangun atau menampung data (apapun yang akan tampil di layar)
-          itemBuilder: (context, index) => _buildCategory(index),
-          scrollDirection: Axis.horizontal, //mengatur arah scroll menjadi horizontal
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 23),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Title and view all
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Categories",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: textColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {},  //ini masi dummy
+                child: const Text(
+                  "view all",
+                  style: TextStyle(
+                    color: Color(0xFF236A91),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: defaultPadding), // Memberikan sedikit jarak
+
+          // Horizontal list of categories with icons
+          SizedBox(
+            height: 65, // Atur tinggi untuk ikon dan teks
+            child: ListView.builder( //membuat list yang bisa di-scroll secara horizontal
+              scrollDirection: Axis.horizontal, //mengatur arah scroll menjadi horizontal
+              itemCount: categories.length,
+              //item builder itu buat membangun atau menampung data (apapun yang akan tampil di layar)
+              itemBuilder: (context, index) => _buildCategory(index),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -52,21 +84,29 @@ class _CategoriesState extends State<Categories> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              categories[index],
-              style: TextStyle(
+            Container(
+              padding: const EdgeInsets.all(10), // Mengurangi padding agar lebih kecil
+              decoration: BoxDecoration(
+                color: selectedIndex == index ? primaryColor.withOpacity(0.1) : Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                categories[index]["icon"],
                 color: selectedIndex == index ? primaryColor : secondaryColor,
+                size: 20,
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                top: 3
+            const SizedBox(height: 7),
+            Text(
+              categories[index]["text"],
+              style: TextStyle(
+                color: selectedIndex == index ? primaryColor : secondaryColor,
+                fontWeight: selectedIndex == index ? FontWeight.bold : FontWeight.normal,
+                fontSize: 12
               ),
-              height: 2,
-              width: 30,
-              color: selectedIndex == index ? primaryColor : secondaryColor,
-            )
+            ),
           ],
         ),
       ),

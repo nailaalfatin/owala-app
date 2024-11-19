@@ -11,7 +11,7 @@ class ProductTitle extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     //ini buat definisiin ukuran proposional gambar sebagai variabel constant
-    const double imageWidthRatio = 0.60; // ngambil 35% dari lebar layar
+    const double imageWidthRatio = 0.58; // ngambil 35% dari lebar layar
     const double imageHeightRatio = 0.36; //ngambil 20% dari tinggi layar
 
     return Padding(
