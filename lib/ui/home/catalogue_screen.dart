@@ -68,7 +68,9 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
             icon: const Icon(Icons.shopping_cart_outlined),
           ),
           IconButton(

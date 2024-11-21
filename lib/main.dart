@@ -2,9 +2,12 @@ import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/models/products.dart';
 import 'package:e_commerce/settings/profile_screen.dart';
 import 'package:e_commerce/settings/settings_screen.dart';
+import 'package:e_commerce/state-management/cart_provider.dart';
 import 'package:e_commerce/state-management/theme_provider.dart';
+import 'package:e_commerce/state-management/wishlist_provider.dart';
 import 'package:e_commerce/ui/auth/login_screen.dart';
 import 'package:e_commerce/ui/auth/register_screen.dart';
+import 'package:e_commerce/ui/cart/cart_screen.dart';
 import 'package:e_commerce/ui/detail/detail_screen.dart';
 import 'package:e_commerce/ui/home/catalogue_screen.dart';
 import 'package:e_commerce/ui/splash/splash_screen.dart';
@@ -17,9 +20,13 @@ import 'package:provider/provider.dart';
 void main() {
   runApp(
     //placeholder tamplate untuk tim provider yg belum terdefinisi
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: const FloShop(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+        ChangeNotifierProvider(create: (_) => WishlistProvider()),
+      ],
+      child: const FloShop()
     )
   );
 }
@@ -50,7 +57,7 @@ class _FloShopState extends State<FloShop> {
               bodySmall: TextStyle(color: textColor)
             )
           ),
-          initialRoute: '/catalogue',
+          initialRoute: '/splash',
           routes: {
             '/splash': (context) => const SplashScreen(),
             '/login': (context) => LoginPage(),
@@ -59,6 +66,7 @@ class _FloShopState extends State<FloShop> {
             '/detail': (context) => DetailScreen(
               product: ModalRoute.of(context)!.settings.arguments as Product,
             ),
+            '/cart': (context) => const CartScreen(),
             '/settings': (context) => const SettingsScreen(),
             '/profile': (context) => const ProfileScreen(),
             '/wishlist': (context) => const WishlistScreen(),
