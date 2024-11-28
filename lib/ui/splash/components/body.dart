@@ -1,6 +1,8 @@
 import 'package:e_commerce/consts.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:e_commerce/ui/splash/components/splash_content.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Body extends StatefulWidget {
   const Body({super.key});
@@ -105,7 +107,7 @@ class _BodyState extends State<Body> {
                       
                     }
                   }, 
-                  // ini untuk  text button
+                  // ini untuk text button
                   child: Text(
                     currentPage == splashData.length - 1 ? "Get Started" : "Next",
                     style: const TextStyle(
@@ -124,11 +126,16 @@ class _BodyState extends State<Body> {
   // code untuk logic dots indikator/ yg bulet bulet.
   // Method extraction (biar reusable)
   AnimatedContainer _dotsIndicator({required int index}) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return AnimatedContainer(
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: currentPage == index ? primaryColor : secondaryColor, // kalau curentPage maka warna primaryColor
+        color: currentPage == index
+          ? primaryColor
+          : (themeProvider.isDarkTheme ? textColorDarkMOde : secondaryColor),
+          // kalau curentPage maka warna primaryColor
       ),
       width: currentPage == index ? 20 : 7, // kalau di currentPage width nya 20, kalau tidak 10
       height: 5, duration: animationDuration,

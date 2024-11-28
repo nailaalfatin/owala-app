@@ -1,11 +1,14 @@
 import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/models/products.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:e_commerce/ui/detail/components/add_to_cart.dart';
 import 'package:e_commerce/ui/detail/components/cart_counter.dart';
 import 'package:e_commerce/ui/detail/components/color_and_size.dart';
 import 'package:e_commerce/ui/detail/components/description.dart';
+import 'package:e_commerce/ui/detail/components/fav_button.dart';
 import 'package:e_commerce/ui/detail/components/product_title.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatelessWidget {
   const DetailScreen({super.key, required this.product});
@@ -13,6 +16,8 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    int quantity = 1;
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -23,13 +28,19 @@ class DetailScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.search),
+            icon: const Icon(
+              Icons.search,
+              color: textColor
+            ),
           ),
           IconButton(
             onPressed: () {
               Navigator.pushNamed(context, '/cart');
             },
-            icon: const Icon(Icons.shopping_cart_outlined),
+            icon: const Icon(
+              Icons.shopping_cart_outlined,
+              color: textColor
+            ),
           ),
         ],
       ),
@@ -48,8 +59,8 @@ class DetailScreen extends StatelessWidget {
                       left: 25,
                       right: defaultPadding,
                     ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
+                    decoration: BoxDecoration(
+                      color: themeProvider.isDarkTheme ? Colors.black : Colors.white,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(24),
                         topRight: Radius.circular(24),
@@ -63,15 +74,15 @@ class DetailScreen extends StatelessWidget {
                         const SizedBox(height: defaultPadding),
                         Description(product: product),
                         const SizedBox(height: 20),
-                         const Row(
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CartCounter(),
-                            // FavButton(product: product)
+                            CartCounter(product: product),
+                            FavButton(product: product)
                           ],
                         ),
                         const SizedBox(height: 20),
-                        AddToCart(product: product),
+                        AddToCart(product: product, quantity: quantity),
                       ],
                     ),
                   ),

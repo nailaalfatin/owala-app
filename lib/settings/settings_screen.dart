@@ -1,3 +1,4 @@
+import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,14 +16,17 @@ class SettingsScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: themeProvider.isDarkTheme ? Colors.black : Colors.white,
         elevation: 0,
-        iconTheme: IconThemeData(color: themeProvider.isDarkTheme ? Colors.white : Colors.black),
+        iconTheme: IconThemeData(color: themeProvider.isDarkTheme ? textColorDarkMOde: Colors.black),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_none),
-            color: themeProvider.isDarkTheme ? Colors.white : Colors.black,
             onPressed: () {
-              themeProvider.toggleTheme(!themeProvider.isDarkTheme);
+              Navigator.pushNamed(context, '/cart');
             },
+            icon: const Icon(Icons.shopping_cart_outlined),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
           ),
         ],
       ),
@@ -44,7 +48,7 @@ class SettingsScreen extends StatelessWidget {
             SwitchListTile(
               title: Text(
                 'Dark Theme',
-                style: TextStyle(color: themeProvider.isDarkTheme ? Colors.white : Colors.black),
+                style: TextStyle(color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black),
               ),
               value: themeProvider.isDarkTheme,
               activeColor: Colors.blue,
@@ -68,11 +72,11 @@ class SettingsScreen extends StatelessWidget {
 
   ListTile _buildListTile(IconData icon, String title, bool isDarkTheme) {
     return ListTile(
-      leading: Icon(icon, color: isDarkTheme ? Colors.white : Colors.black),
+      leading: Icon(icon, color: isDarkTheme ? textColorDarkMOde : Colors.black),
       title: Text(
         title,
         style: TextStyle(
-          color: isDarkTheme ? Colors.white : Colors.black,
+          color: isDarkTheme ? textColorDarkMOde : Colors.black,
           fontWeight: FontWeight.w500,
         ),
       ),

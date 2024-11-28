@@ -3,7 +3,9 @@
 
 import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/models/products.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemsCard extends StatelessWidget {
   const ItemsCard({super.key, required this.product, required this.press});
@@ -19,6 +21,8 @@ class ItemsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return GestureDetector(
       onTap: press,
       child: Column(
@@ -40,14 +44,17 @@ class ItemsCard extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             product.title,
-            style: const TextStyle(
-              color: textColor,
+            style: TextStyle(
+              color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor,
               fontWeight: FontWeight.bold
             ),
           ),
           const SizedBox(height: 5),
           Text(
-            product.getFormattedPrice() //Menggunakan metode untuk mendapatkan harga terformat
+            product.getFormattedPrice(), //Menggunakan metode untuk mendapatkan harga terformat
+            style: TextStyle(
+              color: themeProvider.isDarkTheme ? const Color(0xFFBDBDBD) : textColor,
+            ),
           )
         ],
       ),

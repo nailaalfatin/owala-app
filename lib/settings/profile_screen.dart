@@ -1,25 +1,39 @@
+import 'package:e_commerce/consts.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import this for date formatting
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart'; // Import this for date formatting
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Profile'),
+        title: const Text('Profile'),
         centerTitle: true,
+        backgroundColor: themeProvider.isDarkTheme ? Colors.black : Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications),
+            onPressed: () {
+              Navigator.pushNamed(context, '/cart');
+            },
+            icon: const Icon(Icons.shopping_cart_outlined),
+          ),
+          IconButton(
             onPressed: () {},
+            icon: const Icon(Icons.notifications_none),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(defaultPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                         child: IconButton(
                           icon: const Icon(Icons.camera_alt, color: Colors.white),
                           onPressed: () {
-                            // Logic to change profile picture
+                            //logic buat ngasih profile picture
                           },
                         ),
                       ),
@@ -62,12 +76,12 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 32),
               const TextFieldWidget(
                 label: 'Full Name',
-                initialValue: 'Cody Fisher',
+                initialValue: 'Naila Al Fatin',
               ),
               const SizedBox(height: 16),
               const TextFieldWidget(
                 label: 'Email Address',
-                initialValue: 'cody.fisher45@example.com',
+                initialValue: 'nailaalfatin@gmail.com',
               ),
               const SizedBox(height: 16),
               const PhoneNumberFieldWidget(),
@@ -78,16 +92,18 @@ class ProfileScreen extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue[100],
-                    foregroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 80,
-                      vertical: 16,
+                    backgroundColor: primaryColor,
+                    minimumSize: const Size(double.infinity, 50),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
                   child: const Text(
                     'Saved',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15
+                    ),
                   ),
                 ),
               ),
@@ -104,10 +120,10 @@ class TextFieldWidget extends StatelessWidget {
   final String initialValue;
 
   const TextFieldWidget({
-    Key? key,
+    super.key,
     required this.label,
     required this.initialValue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +147,7 @@ class TextFieldWidget extends StatelessWidget {
 }
 
 class PhoneNumberFieldWidget extends StatelessWidget {
-  const PhoneNumberFieldWidget({Key? key}) : super(key: key);
+  const PhoneNumberFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -184,9 +200,10 @@ class PhoneNumberFieldWidget extends StatelessWidget {
 class DateFieldWidget extends StatefulWidget {
   final String label;
 
-  const DateFieldWidget({Key? key, required this.label}) : super(key: key);
+  const DateFieldWidget({super.key, required this.label});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DateFieldWidgetState createState() => _DateFieldWidgetState();
 }
 

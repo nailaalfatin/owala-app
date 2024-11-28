@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddToCart extends StatelessWidget {
-  const AddToCart({super.key, required this.product});
+  const AddToCart({super.key, required this.product, required this.quantity});
 
   final Product product;
+  final int quantity;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +27,14 @@ class AddToCart extends StatelessWidget {
               border: Border.all(color: product.color)
             ),
             child: IconButton (
+              icon: const Icon(Icons.add_shopping_cart_outlined),
               onPressed: () {
-                cartProvider.addItem(
+                cartProvider.addItem( //gimana caranya kalo quantity itu udah terhubung belum? dari additem
                   product.id.toString(),
                   product.title,
-                  product.price
+                  product.price,
+                  product.image,
+                  quantity
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -40,7 +44,6 @@ class AddToCart extends StatelessWidget {
                   )
                 );
               }, 
-              icon: const Icon(Icons.shopping_cart_outlined)
             ),
           ),
           Expanded(
@@ -56,7 +59,9 @@ class AddToCart extends StatelessWidget {
                 cartProvider.addItem(
                   product.id.toString(),
                   product.title,
-                  product.price
+                  product.price,
+                  product.image,
+                  quantity
                 );
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

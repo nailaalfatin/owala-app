@@ -1,5 +1,7 @@
 import 'package:e_commerce/consts.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Categories extends StatefulWidget {
   const Categories({super.key});
@@ -25,6 +27,8 @@ class _CategoriesState extends State<Categories> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     //Ini buat bikin daftar kategori yang bisa di-scroll dan kasih jarak vertikal
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 23),
@@ -35,18 +39,18 @@ class _CategoriesState extends State<Categories> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 "Categories",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: textColor,
+                  color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor
                 ),
               ),
               GestureDetector(
                 onTap: () {},  //ini masi dummy
                 child: const Text(
-                  "view all",
+                  "View All",
                   style: TextStyle(
                     color: Color(0xFF236A91),
                     fontSize: 16,
@@ -74,6 +78,8 @@ class _CategoriesState extends State<Categories> {
   }
 
   GestureDetector _buildCategory(int index) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return GestureDetector( //untuk mendeteksi gesture dari apa saja kayak ketuk atau geser atau longpress
       //Ini buat ngubah kategori yang dipilih pas diklik (inisialisasi)
       onTap: () {
@@ -89,12 +95,22 @@ class _CategoriesState extends State<Categories> {
             Container(
               padding: const EdgeInsets.all(10), // Mengurangi padding agar lebih kecil
               decoration: BoxDecoration(
-                color: selectedIndex == index ? primaryColor.withOpacity(0.1) : Colors.white,
+                color: selectedIndex == index 
+                  ? themeProvider.isDarkTheme 
+                      ? primaryColor.withOpacity(0.4) 
+                      : primaryColor.withOpacity(0.1)
+                  : themeProvider.isDarkTheme 
+                      ? const Color(0xFF1E1E1E) 
+                      : Colors.white,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 categories[index]["icon"],
-                color: selectedIndex == index ? primaryColor : secondaryColor,
+                color: selectedIndex == index 
+                  ? primaryColor 
+                  : themeProvider.isDarkTheme 
+                      ? textColorDarkMOde
+                      : secondaryColor,
                 size: 20,
               ),
             ),

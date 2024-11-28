@@ -1,6 +1,8 @@
 import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/size_config.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SplashContent extends StatelessWidget {
   const SplashContent({
@@ -10,6 +12,8 @@ class SplashContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Column(
       children: [
         Image.asset(
@@ -29,6 +33,9 @@ class SplashContent extends StatelessWidget {
         Text(
           text,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor,
+          ),
         ),
       ],
     );

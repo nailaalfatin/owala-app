@@ -1,6 +1,8 @@
 import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/models/products.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ColorAndSize extends StatelessWidget {
   const ColorAndSize({super.key, required this.product});
@@ -9,14 +11,21 @@ class ColorAndSize extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Row(
       children: [
-        const Expanded(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Color"),
-              Row(
+              Text(
+                "Color",
+                style: TextStyle(
+                  color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor,
+                ),
+              ),
+              const Row(
                 children: [
                   ColorPicker(
                     color:Color(0xFF90B4C6),
@@ -43,9 +52,11 @@ class ColorAndSize extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "SIze",
-                style: TextStyle(color: textColor),
+              Text(
+                "Size",
+                style: TextStyle(
+                  color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor
+                ),
               ),
               RichText( //RichText untuk text yang punya tema terang dan gelap
                 text: TextSpan(

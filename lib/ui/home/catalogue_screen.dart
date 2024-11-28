@@ -1,12 +1,14 @@
 import 'package:e_commerce/consts.dart';
 import 'package:e_commerce/models/products.dart';
+import 'package:e_commerce/settings/profile_screen.dart';
 import 'package:e_commerce/settings/settings_screen.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:e_commerce/ui/home/components/bottom_nav_bar.dart';
 import 'package:e_commerce/ui/home/components/categories.dart';
 import 'package:e_commerce/ui/home/components/items_card.dart';
-import 'package:e_commerce/settings/profile_screen.dart';
 import 'package:e_commerce/ui/wishlist/wishlist_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CatalogeScreen extends StatefulWidget {
   const CatalogeScreen({super.key});
@@ -18,6 +20,7 @@ class CatalogeScreen extends StatefulWidget {
 class _CatalogeScreenState extends State<CatalogeScreen> {
   int _selectedIndex = 0;
 
+  //ini adalah cara gimana kita bernavigasi menggunakan buttom navbar
   //Daftar buat nampilin tiap tab
   final List<Widget> _widgetOptions = [
     const CatalogeScreen(),
@@ -26,30 +29,35 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
     const ProfileScreen()
   ];
 
+  // function untuk aksi tap pada buttom navbar
   void _onItemTapped(int index) {
     setState(() {
+      // ini itu untuk menyatakan bahwa initial action untuk menampikan 
+      // objek yang berada pada index ke-0
       _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      appBar: AppBar(
+      appBar: _selectedIndex == 0 ? AppBar(
         automaticallyImplyLeading: false, // buat ilangin tombol back
-        backgroundColor: Colors.white,
+        backgroundColor: themeProvider.isDarkTheme ? const Color(0xFF121212) : Colors.white,
         elevation: 0, // Hilangin shadow di AppBar
-        title: const Row(
+        title: Row(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 16.0),
+              padding: const EdgeInsets.only(left: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Location",
                     style: TextStyle(
-                      color: Colors.grey,
+                      color: themeProvider.isDarkTheme ? Colors.white.withOpacity(0.6) : Colors.grey,
                       fontSize: 14,
                     ),
                   ),
@@ -58,7 +66,7 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.black,
+                      color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black,
                     ),
                   ),
                 ],
@@ -71,14 +79,20 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
             onPressed: () {
               Navigator.pushNamed(context, '/cart');
             },
-            icon: const Icon(Icons.shopping_cart_outlined),
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black,
+            )
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications_none),
+            icon: Icon(
+              Icons.notifications_none,
+              color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black,
+            ),
           ),
         ],
-      ),
+      ): null,
 
   //Disini kita make ternary operator (mirip kaya oneline if else)
       body: _selectedIndex == 0 //ini kondisinya
@@ -106,70 +120,79 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: themeProvider.isDarkTheme ? Colors.black : Colors.white,
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    child: const Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.account_balance_wallet, color: Color(0xFF236A91)),
-                            SizedBox(width: 8),
+                            const Icon(Icons.account_balance_wallet, color: Color(0xFF236A91)),
+                            const SizedBox(width: 8),
                             Text(
-                              "Owala",
+                              "Bottles",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           "Rp119.500",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: Colors.black,
+                            color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.black,
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 3,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Column(
                         children: [
-                          Icon(Icons.arrow_upward, color: Colors.white),
-                          SizedBox(height: 4),
+                          Icon(
+                            Icons.arrow_upward, 
+                            color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,
+                          ),
+                          const SizedBox(height: 4),
                           Text(
                             "Pay",
-                            style: TextStyle(color: Colors.white)
+                            style: TextStyle(color:themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,)
                           ),
                         ],
                       ),
                       Column(
                         children: [
-                          Icon(Icons.add_circle, color: Colors.white),
-                          SizedBox(height: 4),
+                          Icon(
+                            Icons.add_circle, 
+                            color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,
+                          ),
+                          const SizedBox(height: 4),
                           Text(
                             "Top Up",
-                            style: TextStyle(color: Colors.white)
+                            style: TextStyle(color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,)
                           ),
                         ],
                       ),
                       Column(
                         children: [
-                          Icon(Icons.explore, color: Colors.white),
-                          SizedBox(height: 4),
+                          Icon(
+                            Icons.explore, 
+                            color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,
+                          ),
+                          const SizedBox(height: 4),
                           Text(
                             "Explore",
-                            style: TextStyle(color: Colors.white)
+                            style: TextStyle(color: themeProvider.isDarkTheme ? textColorDarkMOde : Colors.white,)
                           ),
                         ],
                       ),
@@ -211,18 +234,17 @@ class _CatalogeScreenState extends State<CatalogeScreen> {
               ],
             ),
           ),
-          
           const SizedBox(height: 15),
           const Categories(),
           const SizedBox(height: 15),
-          const Padding(
-            padding: EdgeInsets.all(defaultPadding),
+          Padding(
+            padding: const EdgeInsets.all(defaultPadding),
             child: Text(
               "Drinkware",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: textColor,
+                color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor
               ),
             ),
           ),

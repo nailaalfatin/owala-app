@@ -48,6 +48,7 @@ class _FloShopState extends State<FloShop> {
           debugShowCheckedModeBanner: false,
           title: 'FloShop', // untuk menampilkan nama aplikasi di Task Switcher
           theme: ThemeData(
+            // bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: Colors.amber),
             brightness: themeProvider.isDarkTheme ? Brightness.dark :  Brightness.light, //untukk proses perubahan tema
             scaffoldBackgroundColor: themeProvider.isDarkTheme ? Colors.black : Colors.white, //kita spesifikasi biar dia ga jelek pas dark mode
             fontFamily: 'Plus Jakarta Sans',
@@ -55,7 +56,8 @@ class _FloShopState extends State<FloShop> {
             textTheme: const TextTheme(
               bodyMedium: TextStyle(color: textColor), //textColor itu ngambil dari consts.dart
               bodySmall: TextStyle(color: textColor)
-            )
+            ),
+            // colorSchemeSeed: Colors.white70
           ),
           initialRoute: '/splash',
           routes: {

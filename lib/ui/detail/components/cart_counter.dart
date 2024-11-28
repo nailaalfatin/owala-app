@@ -1,71 +1,91 @@
 import 'package:e_commerce/consts.dart';
+import 'package:e_commerce/models/products.dart';
+import 'package:e_commerce/state-management/cart_provider.dart';
+import 'package:e_commerce/state-management/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartCounter extends StatefulWidget {
-  const CartCounter({super.key});
+  final Product product;
+
+  const CartCounter({super.key, required this.product});
 
   @override
   State<CartCounter> createState() => _CartCounterState();
 }
 
 class _CartCounterState extends State<CartCounter> {
-  int numOfItems = 1;
+  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+  
     return Row(
-      children: <Widget>[
+      children: <Widget> [
+        //logic buat decrement (pengurangan)
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            minimumSize: const Size(33, 33),
+            minimumSize: const Size(25, 25),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
+              borderRadius: BorderRadius.circular(10.0)
             )
           ),
-          onPressed: () {
+          onPressed: quantity > 1 
+          ? () {
+            // setState isinya itu inisialisasi awal
             setState(() {
-              if (numOfItems > 1) { 
-                //if (numOfItems > 1) itu untuk cek apakah numOfItems (jumlah item) lebih dari 1
-                //Tujuannya biar jumlah item gak jadi kurang dari 1, supaya gak bisa jadi 0 atau negatif.
-                setState(() {
-                  numOfItems --;
-                  //Kalau jumlahnya lebih dari 1, maka bagian numOfItems-- akan ngurangin jumlah item itu 1 angka. 
-                  //Misalnya tadinya 3, jadi 2, dan seterusnya. Tapi kalau jumlahnya cuma 1, gak bakal dikurangin lagi.
-                });
-              }
+              quantity--;
             });
-          },
-          child: const Icon(Icons.remove)
+            //ini itu untuk mengirim quantity terbaru;
+            cartProvider.removeItems(widget.product.id.toString());
+          }
+          //null ini akan men-disable tombol jika kuantitas <=1
+          : null,
+          child: Icon(
+            Icons.remove,
+            color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor,
+          ),
         ),
-        const SizedBox(width: 2), //ini buat jarak dari button ke angka ke button lain
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
           child: Text(
-            numOfItems.toString().padLeft(2, "0"), 
-            //padeft itu buat kalau teksnya kurang dari 2 digit, tambahin "0" di depannya
-            //jadi, kalau angkanya 5, hasilnya jadi "05". Kalau angkanya 12, hasilnya tetap "12". tujuannya biar selalu tampil 2 digit.
-            style: const TextStyle(
-              fontSize: 18,
-              color: textColor
+            quantity.toString().padLeft(2, "0"),
+            style: TextStyle(
+              fontSize: 18, 
+              color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor
             ),
           ),
         ),
-        const SizedBox(width: 2), //ini buat jarak dari button ke angka ke button lain
         OutlinedButton(
           style: OutlinedButton.styleFrom(
-            minimumSize: const Size(33, 33),
+            minimumSize: const Size(25, 25),
             padding: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
+              borderRadius: BorderRadius.circular(10.0)
             )
           ),
           onPressed: () {
             setState(() {
-              numOfItems ++;
+              quantity++;
             });
+            //pendeklarasian informasi yang akan dikirimkan ke addToCart (tombol keranjang)
+            // ini untuk mengirim quantity terbary
+            // ini juga merupakan starting point dimana kuantitsa akan dibawa oleh tombol keranjang
+            cartProvider.addItem(
+              widget.product.id.toString(),
+              widget.product.title,
+              widget.product.price,
+              widget.product.image,
+              1
+            );
           },
-          child: const Icon(Icons.add)
+          child: Icon(
+            Icons.add,
+            color: themeProvider.isDarkTheme ? textColorDarkMOde : textColor,
+          ),
         ),
       ],
     );

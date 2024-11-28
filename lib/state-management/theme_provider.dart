@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//mengimplementasikan konsep OOP (Inheritance)
 class ThemeProvider extends ChangeNotifier {
   //perbedaan setter dan getter
   //ibaratnya si setter itu privat, nah kalo getter itu public
 
-  //setter
+  //setter = sebuah variable yang bersifat privat
   bool _isDarkTheme = false;
 
   ThemeProvider() {

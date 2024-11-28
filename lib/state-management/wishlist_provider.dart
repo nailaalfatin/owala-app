@@ -4,8 +4,10 @@ class WishlistItem {
   final String id;
   final String title;
   final int price;
+  final String image;
+  final Color color;
 
-  WishlistItem({required this.id, required this.title, required this.price});
+  WishlistItem(this.image, this.color, {required this.id, required this.title, required this.price});
 }
 
 class WishlistProvider with ChangeNotifier {
@@ -16,15 +18,15 @@ class WishlistProvider with ChangeNotifier {
 
   int get itemCount => wishlistItem.length;
 
-  void addItemToFav(String id, String title, int price) {
+  void addItemToFav(String id, String title, int price, String image, Color color) {
     if (_wishlistItems.containsKey(id)) {
-      //jika sudah ada item yang ditambahkan ke keranjang
+      //jika sudah ada item yang ditambahkan ke wishlist
       return;
     } else {
       //kenapa kita pake id? karna sebelumnya udah kita definisikan di yang atas itu
       _wishlistItems.putIfAbsent(
         id,
-        () => WishlistItem(id: id, title: title, price: price)
+        () => WishlistItem(image, color, id: id, title: title, price: price)
       );
     }
     notifyListeners();
